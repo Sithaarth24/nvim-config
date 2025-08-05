@@ -4,12 +4,18 @@ require 'custom.set'
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
+vim.keymap.set('n', '<M-j>', ':m .+1<CR>==')
+vim.keymap.set('n', '<M-k>', ':m .-2<CR>==')
+vim.keymap.set('v', '<M-k>', ":m '<-2<CR>gv=gv")
+vim.keymap.set('v', '<M-j>', ":m '>+1<CR>gv=gv")
+
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+vim.keymap.set('n', '<leader>;', ':w<CR>')
 vim.keymap.set('n', 'U', '<C-r>', { desc = 'redo' })
 vim.keymap.set('n', '<leader>k', '<C-i>', { desc = 'cursor front' })
 vim.keymap.set('n', '<leader>j', '<C-o>', { desc = 'cursor back' })
 vim.keymap.set('n', '<leader>ca', 'ggVG"+y<C-o><Esc>', { desc = 'copy buffer to clipboard' })
-vim.keymap.set('v', '<leader>cb', '"+y', { desc = 'copy block' })
+vim.keymap.set({ 'v', 'n' }, '<leader>y', '"+y', { desc = 'copy into clipboard' })
 vim.keymap.set({ 'v', 'n' }, '<leader>tw', function()
   vim.opt.wrap = not vim.opt.wrap:get()
 end, { desc = '[T]oggle line [W]rap' })
@@ -73,7 +79,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
   callback = function()
-    vim.hl.on_yank()
+    if vim.api.nvim_get_mode().mode ~= 'n' then
+      vim.hl.on_yank()
+    end
   end,
 })
 
@@ -515,19 +523,20 @@ require('lazy').setup({
             [vim.diagnostic.severity.HINT] = '󰌶 ',
           },
         } or {},
-        virtual_text = {
-          source = 'if_many',
-          spacing = 2,
-          format = function(diagnostic)
-            local diagnostic_message = {
-              [vim.diagnostic.severity.ERROR] = diagnostic.message,
-              [vim.diagnostic.severity.WARN] = diagnostic.message,
-              [vim.diagnostic.severity.INFO] = diagnostic.message,
-              [vim.diagnostic.severity.HINT] = diagnostic.message,
-            }
-            return diagnostic_message[diagnostic.severity]
-          end,
-        },
+        virtual_text = false,
+        -- virtual_text = {
+        --   source = 'if_many',
+        --   spacing = 2,
+        --   format = function(diagnostic)
+        --     local diagnostic_message = {
+        --       [vim.diagnostic.severity.ERROR] = diagnostic.message,
+        --       [vim.diagnostic.severity.WARN] = diagnostic.message,
+        --       [vim.diagnostic.severity.INFO] = diagnostic.message,
+        --       [vim.diagnostic.severity.HINT] = diagnostic.message,
+        --     }
+        --     return diagnostic_message[diagnostic.severity]
+        --   end,
+        -- },
       }
 
       -- LSP servers and clients are able to communicate to each other what features they support.
