@@ -11,7 +11,7 @@ return {
   require 'kickstart.plugins.gitsigns',
   require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.lint',
-  require 'kickstart.plugins.lsp_setup',
+  require 'kickstart.plugins.lsp',
   require 'kickstart.plugins.mini',
   require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.telescope',
