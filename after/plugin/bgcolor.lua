@@ -2,8 +2,8 @@ function ColorMyPencils(color)
   color = color or 'monokai'
   vim.cmd.colorscheme(color)
   vim.cmd [[
-  	highlight LineNr guifg=#515354 guibg=NONE
-	highlight CursorLineNr guifg=#FFFFFF gui=bold
+  	highlight LineNr guifg=#444445 guibg=NONE
+	highlight CursorLineNr guifg=#f27a1d gui=bold
   	highlight GitSignsCurrentLineBlame guifg=#7E8E9F gui=italic
   ]]
 
