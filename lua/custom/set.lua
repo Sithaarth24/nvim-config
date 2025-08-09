@@ -4,7 +4,7 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-vim.opt.wrap = false
+vim.opt.wrap = true
 vim.opt.sidescroll = 1
 vim.opt.sidescrolloff = 10
 
@@ -47,6 +47,7 @@ vim.o.showmode = false
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
+--  INFO: this was a pain in my ass until i removed it...
 vim.schedule(function()
   -- vim.o.clipboard = 'unnamedplus'
 end)
