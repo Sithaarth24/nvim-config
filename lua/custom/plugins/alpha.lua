@@ -1,48 +1,118 @@
--- minimal alpha config to show only a banner art
 return {
   'goolord/alpha-nvim',
+  event = 'VimEnter',
   config = function()
     local alpha = require 'alpha'
     local dashboard = require 'alpha.themes.dashboard'
 
-    -- load your art (put the LightningNvim-converted file at: lua/art/arcane1.lua)
-    local ok, header_art = pcall(require, 'arcane_lol.arcane_ekko')
-    if not ok then
-      vim.notify('Could not load art.arcane1: ' .. tostring(header_art), vim.log.levels.ERROR)
-      return
-    end
-
-    -- safety: require must return a list of strings (array part). If it's a dict or empty, fallback.
-    if type(header_art) ~= 'table' or #header_art == 0 then
-      -- try to coerce numeric entries if the file returned a table with keys
-      local coerced = {}
-      for k, v in pairs(header_art) do
-        if type(k) == 'number' and type(v) == 'string' then
-          coerced[k] = v
-        end
-      end
-      if #coerced > 0 then
-        header_art = coerced
-      else
-        -- fallback: small default single-line header
-        header_art = { 'Neovim' }
-      end
-    end
-
-    -- set only the header (no buttons/footer)
-    dashboard.section.header.val = header_art
-    dashboard.section.header.opts = { position = 'center', hl = 'String' }
-
-    dashboard.section.buttons.val = {} -- remove buttons
-    dashboard.section.footer.val = {} -- remove footer
-
-    -- optional: tweak layout spacing
-    dashboard.config.layout = {
-      { type = 'padding', val = 1 },
-      dashboard.section.header,
-      { type = 'padding', val = 1 },
+    _Gopts = {
+      position = 'center',
+      hl = 'Type',
+      wrap = 'overflow',
     }
 
-    alpha.setup(dashboard.config)
+    local function get_all_files_in_dir(dir)
+      local files = {}
+      local scan = vim.fn.globpath(dir, '**/*.lua', true, true)
+      for _, file in ipairs(scan) do
+        table.insert(files, file)
+      end
+      return files
+    end
+
+    local function load_random_header()
+      math.randomseed(os.time())
+      local header_folder = vim.fn.stdpath 'config' .. '/lua/alpha_images/'
+      local files = get_all_files_in_dir(header_folder)
+
+      if #files == 0 then
+        return nil
+      end
+
+      local random_file = files[3]
+      local relative_path = random_file:sub(#header_folder + 1)
+      local module_name = 'alpha_images.' .. relative_path:gsub('/', '.'):gsub('\\', '.'):gsub('%.lua$', '')
+
+      package.loaded[module_name] = nil
+
+      local ok, module = pcall(require, module_name)
+      if ok and module.header then
+        return module.header
+      else
+        return nil
+      end
+    end
+
+    local function change_header()
+      local new_header = load_random_header()
+      if new_header then
+        dashboard.config.layout[2] = new_header
+        vim.cmd 'AlphaRedraw'
+      else
+        print 'No images inside header_img folder.'
+      end
+    end
+
+    local header = load_random_header()
+    if header then
+      dashboard.config.layout[2] = header
+    else
+      print 'No images inside header_img folder.'
+    end
+
+    -- Buttons (obsidian-related buttons removed)
+    dashboard.section.buttons.val = {
+      dashboard.button('w', '🖌️ Change header image', function()
+        change_header()
+      end),
+      dashboard.button('c', '🛠️ Settings', ':e $HOME/.config/nvim/init.lua<CR>'),
+      dashboard.button('r', '⌛ Recent files', ':Telescope oldfiles <CR>'),
+      dashboard.button('t', '🖮  Practice typing with Typr ', ':Typr<CR>'),
+      dashboard.button('u', '🔌 Update plugins', '<cmd>Lazy update<CR>'),
+    }
+
+    -- Layout: header + buttons + footer
+    dashboard.config.layout = {
+      { type = 'padding', val = 3 },
+      header,
+      { type = 'padding', val = 2 },
+      {
+        type = 'group',
+        val = {
+          {
+            type = 'group',
+            val = {
+              {
+                type = 'group',
+                val = dashboard.section.buttons.val,
+                opts = { spacing = 1 },
+              },
+            },
+            opts = { spacing = 1 },
+          },
+        },
+        opts = {
+          layout = 'horizontal',
+        },
+      },
+      { type = 'padding', val = 2 },
+      dashboard.section.footer,
+    }
+
+    vim.api.nvim_create_autocmd('User', {
+      pattern = 'VimStarted',
+      desc = 'Add Alpha dashboard footer',
+      once = true,
+      callback = function()
+        local stats = require('lazy').stats()
+        local ms = math.floor(stats.startuptime * 100 + 0.5) / 100
+        dashboard.section.footer.val = { ' ', ' ', ' ', ' Loaded ' .. stats.count .. ' plugins  in ' .. ms .. ' ms ' }
+        dashboard.section.header.opts.hl = 'DashboardFooter'
+        pcall(vim.cmd.AlphaRedraw)
+      end,
+    })
+
+    dashboard.opts.opts.noautocmd = true
+    alpha.setup(dashboard.opts)
   end,
 }

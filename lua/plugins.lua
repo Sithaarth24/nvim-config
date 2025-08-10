@@ -1,8 +1,9 @@
 return {
   require 'custom.plugins.accelerated-jk',
   require 'custom.plugins.arena',
-  require 'custom.plugins.comfy-line',
+  -- require 'custom.plugins.comfy-line',
   require 'custom.plugins.neo-clip',
+  require 'custom.plugins.alpha',
   require 'kickstart.plugins.auto-complete',
   require 'kickstart.plugins.auto-format',
   require 'kickstart.plugins.autopairs',
