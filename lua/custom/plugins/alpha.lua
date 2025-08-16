@@ -25,11 +25,7 @@ return {
       local header_folder = vim.fn.stdpath 'config' .. '/lua/alpha_images/'
       local files = get_all_files_in_dir(header_folder)
 
-      if #files == 0 then
-        return nil
-      end
-
-      local random_file = files[3]
+      local random_file = files[math.random(#files)]
       local relative_path = random_file:sub(#header_folder + 1)
       local module_name = 'alpha_images.' .. relative_path:gsub('/', '.'):gsub('\\', '.'):gsub('%.lua$', '')
 

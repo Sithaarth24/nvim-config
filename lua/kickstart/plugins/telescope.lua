@@ -2,7 +2,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
   'nvim-telescope/telescope.nvim',
   event = 'VimEnter',
   dependencies = {
-    'nvim-lua/plenary.nvim',
+    { 'nvim-lua/plenary.nvim' },
     { -- If encountering errors, see telescope-fzf-native README for installation instructions
       'nvim-telescope/telescope-fzf-native.nvim',
 
@@ -22,6 +22,29 @@ return { -- Fuzzy Finder (files, lsp, etc)
     { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
   },
   config = function()
+    local utils = require 'telescope.utils'
+    if not utils.__separate_file_path_location then
+      utils.__separate_file_path_location = function(path)
+        local location_numbers = {}
+        for i = #path, 1, -1 do
+          if path:sub(i, i) == ':' then
+            if i == #path then
+              path = path:sub(1, i - 1)
+            else
+              local location_value = tonumber(path:sub(i + 1))
+              if location_value then
+                table.insert(location_numbers, location_value)
+                path = path:sub(1, i - 1)
+                if #location_numbers == 2 then
+                  break
+                end
+              end
+            end
+          end
+        end
+        return path, unpack(location_numbers)
+      end
+    end
     -- Telescope is a fuzzy finder that comes with a lot of different things that
     -- it can fuzzy find! It's more than just a "file finder", it can search
     -- many different aspects of Neovim, your workspace, LSP, and more!
@@ -44,6 +67,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     -- [[ Configure Telescope ]]
     -- See `:help telescope` and `:help telescope.setup()`
     require('telescope').setup {
+
       -- You can put your default mappings / updates / etc. in here
       --  All the info you're looking for is in `:help telescope.setup()`
       --

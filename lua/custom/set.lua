@@ -5,6 +5,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 vim.opt.wrap = true
+vim.opt.linebreak = true
 vim.opt.sidescroll = 1
 vim.opt.sidescrolloff = 10
 

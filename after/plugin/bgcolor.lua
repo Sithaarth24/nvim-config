@@ -7,8 +7,9 @@ function ColorMyPencils(color)
   	highlight GitSignsCurrentLineBlame guifg=#7E8E9F gui=italic
   ]]
 
-  vim.api.nvim_set_hl(0, 'Normal', { bg = '#1a1d1f' })
-  vim.api.nvim_set_hl(0, 'NormalFloat', { bg = '#1a1d1f' })
+  vim.api.nvim_set_hl(0, 'Normal', { bg = '#121217' })
+  vim.api.nvim_set_hl(0, 'NormalFloat', { bg = '#121217' })
+  vim.api.nvim_set_hl(0, 'cursorLine', { bg = '#121217' })
   vim.api.nvim_set_hl(0, 'MiniStatuslineModeNormal', { fg = '#272822', bg = '#7b9d1f', bold = true })
   vim.api.nvim_set_hl(0, 'MiniStatuslineModeInsert', { fg = '#272822', bg = '#4fa7c2', bold = true })
   vim.api.nvim_set_hl(0, 'MiniStatuslineModeVisual', { fg = '#272822', bg = '#d47d1c', bold = true })
