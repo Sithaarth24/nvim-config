@@ -17,10 +17,15 @@ return {
     filesystem = {
       window = {
         position = 'right',
-        width = 55,
+        width = 35,
         mappings = {
           ['\\'] = 'close_window',
         },
+      },
+      filtered_items = {
+        visible = true, -- show hidden files
+        hide_dotfiles = false, -- do not hide dotfiles
+        hide_gitignored = false, -- do not hide .gitignored files
       },
     },
   },
