@@ -1,16 +1,16 @@
 -- INFO: makes my life easier
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
-vim.keymap.set('n', '<leader>;', ':w<CR>')
+vim.keymap.set('n', '<leader>;', ':wa<CR>')
 vim.keymap.set('n', ';q', ':qa<CR>')
 vim.keymap.set('n', 'U', '<C-r>', { desc = 'redo' })
-vim.keymap.set('n', '<leader>k', '<C-i>', { desc = 'cursor front' })
-vim.keymap.set('n', '<leader>j', '<C-o>', { desc = 'cursor back' })
-vim.keymap.set('n', '<leader>ca', 'ggVG"+y<C-o><Esc>', { desc = 'copy buffer to clipboard' })
-vim.keymap.set('n', '<leader>sa', 'ggVG"', { desc = 'copy buffer to clipboard' })
-vim.keymap.set({ 'v', 'n' }, '<leader>y', '"+y', { desc = '[Y]opy...get it 😁' })
 vim.keymap.set({ 'v', 'n' }, '<leader>tw', function()
   vim.opt.wrap = not vim.opt.wrap:get()
 end, { desc = '[T]oggle line [W]rap' })
+vim.keymap.set('n', '<leader>k', '<C-i>', { desc = 'cursor front' })
+vim.keymap.set('n', '<leader>j', '<C-o>', { desc = 'cursor back' })
+vim.keymap.set('n', '<leader>ca', 'ggVG"+y<C-o><Esc>', { desc = 'copy buffer to clipboard' })
+vim.keymap.set('n', '<leader>sa', 'ggVG', { desc = 'copy buffer to clipboard' })
+vim.keymap.set({ 'v', 'n' }, '<leader>y', '"+y', { desc = '[Y]opy...get it 😁' })
 
 -- INFO: move stuff around
 vim.keymap.set('n', '<D-j>', ':m .+1<CR>==')
@@ -22,16 +22,16 @@ vim.keymap.set('v', '<D-j>', ":m '>+1<CR>gv=gv")
 vim.keymap.set('n', '<leader>D', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 vim.keymap.set('n', 'D', vim.diagnostic.open_float, { desc = 'Open diagnostic float' })
 
--- INFO: lazy...idk, came with kickstart
-
+-- INFO: lazy, came with kickstart
+--
 -- vim.keymap.set('n', '<leader>ll', '<cmd>Lazy<CR>', { desc = '[L]azy UI' })
 -- vim.keymap.set('n', '<leader>ls', '<cmd>Lazy sync<CR>', { desc = 'Lazy [S]ync' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
--- NOTE: btw who uses terminal inside nvim....? its slower anyway
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+-- -- NOTE: btw who uses terminal inside nvim....? its slower anyway
+vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- TIP: Disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
