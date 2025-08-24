@@ -65,3 +65,46 @@ vim.keymap.set('n', '<leader>ww', '<C-w>w', { desc = 'Switch window' })
 -- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
 -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
+
+-- Telescope keymaps
+vim.keymap.set('n', '<leader>sh', function() require('telescope.builtin').help_tags() end, { desc = '[S]earch [H]elp' })
+vim.keymap.set('n', '<leader>sk', function() require('telescope.builtin').keymaps() end, { desc = '[S]earch [K]eymaps' })
+vim.keymap.set('n', '<leader>sf', function() require('telescope.builtin').find_files() end, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>ss', function() require('telescope.builtin').builtin() end, { desc = '[S]earch [S]elect Telescope' })
+vim.keymap.set('n', '<leader>sd', function() require('telescope.builtin').diagnostics() end, { desc = '[S]earch [D]iagnostics' })
+vim.keymap.set('n', '<leader>sc', function() require('telescope.builtin').git_status() end, { desc = '[S]earch [C]hanged files' })
+vim.keymap.set('n', '<leader>sy', ':Telescope neoclip<CR>', { desc = 'Find [Y]anks ' })
+
+vim.keymap.set('n', '<leader>sg', function()
+  require('telescope').extensions.live_grep_args.live_grep_args()
+end, { desc = '[S]earch by [G]rep' })
+
+vim.keymap.set('n', '<leader>sw', function()
+  require('telescope.builtin').grep_string(require('telescope.themes').get_dropdown {
+    winblend = 10,
+    initial_mode = 'normal',
+    sort_mru = true,
+    ignore_current_buffer = true,
+  })
+end, { desc = '[S]earch current [W]ord' })
+
+vim.keymap.set('n', '<leader>q', function()
+  require('telescope.builtin').buffers(require('telescope.themes').get_dropdown {
+    winblend = 10,
+    previewer = false,
+    initial_mode = 'normal',
+    sort_mru = true,
+    ignore_current_buffer = true,
+  })
+end, { desc = '[ ] Find existing buffers' })
+
+vim.keymap.set('n', '<leader>se', function()
+  require('telescope.builtin').diagnostics { bufnr = 0 }
+end, { desc = 'Diagnostics (current file)' })
+
+vim.keymap.set('n', '<leader>/', function()
+  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+    winblend = 10,
+    previewer = false,
+  })
+end, { desc = '[/] Fuzzily search in current buffer' })

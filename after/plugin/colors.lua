@@ -13,17 +13,6 @@ function ColorMyPencils(color)
   vim.api.nvim_set_hl(0, 'NormalFloat', { bg = '#212121' })
   vim.api.nvim_set_hl(0, 'CursorLine', { bg = '#212121' })
 
-  -- -- Telescope
-  -- vim.api.nvim_set_hl(0, 'TelescopeNormal', { bg = '#1a1a22' })
-  -- vim.api.nvim_set_hl(0, 'TelescopeBorder', { bg = '#1a1a22' })
-  -- vim.api.nvim_set_hl(0, 'TelescopePromptNormal', { bg = '#1a1a22' })
-  -- vim.api.nvim_set_hl(0, 'TelescopePromptBorder', { bg = '#1a1a22' })
-  --
-  -- Neo-tree
-  -- vim.api.nvim_set_hl(0, 'NeoTreeNormal', { bg = '#212121' })
-  -- vim.api.nvim_set_hl(0, 'NeoTreeNormalNC', { bg = '#212121' })
-  -- vim.api.nvim_set_hl(0, 'NeoTreeFloatBorder', { bg = '#212121' })
-
   -- Floating-windows
   vim.api.nvim_set_hl(0, 'NormalFloat', { bg = '#212121' })
   vim.api.nvim_set_hl(0, 'FloatBorder', { bg = '#212121' })
@@ -44,5 +33,4 @@ function ColorMyPencils(color)
   })
 end
 
--- vim.cmd.colorscheme 'kanagawa-dragon'
 ColorMyPencils()

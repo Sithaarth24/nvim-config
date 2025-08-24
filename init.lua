@@ -1,6 +1,6 @@
-require 'custom.set'
+require 'set'
 require 'lazy_setup'
-require 'custom.keymaps'
+require 'keymaps'
 
 -- [[ basic autocommands ]]
 --  see `:help lua-guide-autocommands`
