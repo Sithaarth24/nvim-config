@@ -241,6 +241,22 @@ return {
           },
         }
 
+        local lspconfig = require 'lspconfig'
+
+        lspconfig.pyright.setup {
+          settings = {
+            python = {
+              venvPath = vim.fn.getcwd(),
+              venv = 'venv',
+              analysis = {
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode = 'openFilesOnly',
+              },
+            },
+          },
+        }
+
         -- Ensure the servers and tools above are installed
         --
         -- To check the current status of installed tools and/or manually install
